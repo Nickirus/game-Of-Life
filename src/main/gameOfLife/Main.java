@@ -96,12 +96,12 @@ public class Main extends JFrame implements Runnable {
             countOfHash = 0;
         }
         hashСonditionOfPlanes[countOfHash] = Arrays.deepHashCode(planePresent);
-        checkСonditionСontinuer();
+        checkСonditionСounter();
         countOfGenerations++;
         countOfHash++;
     }
 
-    private static void checkСonditionСontinuer() {
+    private static void checkСonditionСounter() {
         if (countOfHash > 3 && (hashСonditionOfPlanes[countOfHash] == hashСonditionOfPlanes[countOfHash - 1] ||
                 hashСonditionOfPlanes[countOfHash] == hashСonditionOfPlanes[countOfHash - 2])) {
             isOnGameFlg = false;
