@@ -4,6 +4,8 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class Main extends JFrame implements Runnable {
@@ -186,7 +188,6 @@ public class Main extends JFrame implements Runnable {
     public Main() {
         super("Game of Life");
         JFrame.setDefaultLookAndFeelDecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(668 + 10, 690 + 10);
         setVisible(true);
@@ -194,6 +195,13 @@ public class Main extends JFrame implements Runnable {
 
         Color colorBack = new Color(37, 37, 37);
         getContentPane().setBackground(colorBack);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                isOnGameFlg = false;
+                System.exit(0);
+            }
+        });
     }
 
     @Override
