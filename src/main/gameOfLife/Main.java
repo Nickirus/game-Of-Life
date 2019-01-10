@@ -173,8 +173,10 @@ public class Main extends JFrame implements Runnable {
                 }
             }
             run();
-
         }
+    }
+
+    private static void messageGameOver() {
         JOptionPane.showMessageDialog(null,
                 "Game over. " + countOfGenerations + " generations. ",
                 "Game of Life",
@@ -243,5 +245,6 @@ public class Main extends JFrame implements Runnable {
         while (isOnGameFlg) {
             lifeCycle();
         }
+        messageGameOver();
     }
 }
