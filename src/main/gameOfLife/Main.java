@@ -13,7 +13,7 @@ public class Main extends JFrame implements Runnable {
     private static int planeFuture[][] = new int[60][60];
     private static int planeDead[][] = new int[60][60];
     private static int planeBirth[][] = new int[60][60];
-    private static long hashСonditionOfPlanes[] = new long[100];
+    private static long hashConditionOfPlanes[] = new long[100];
     private static int countOfGenerations;
     private static int countOfHash;
     private static int speed = 80;
@@ -95,44 +95,45 @@ public class Main extends JFrame implements Runnable {
         if (countOfHash > 99) {
             countOfHash = 0;
         }
-        hashСonditionOfPlanes[countOfHash] = Arrays.deepHashCode(planePresent);
-        checkСonditionСounter();
+        hashConditionOfPlanes[countOfHash] = Arrays.deepHashCode(planePresent);
+        checkConditionCounter();
         countOfGenerations++;
         countOfHash++;
     }
 
-    private static void checkСonditionСounter() {
-        if (countOfHash > 3 && (hashСonditionOfPlanes[countOfHash] == hashСonditionOfPlanes[countOfHash - 1] ||
-                hashСonditionOfPlanes[countOfHash] == hashСonditionOfPlanes[countOfHash - 2])) {
-            isOnGameFlg = false;
-        }
+    private static void checkConditionCounter() {
+        for (int i = 1; i < 30; i++)
+            if (countOfHash > i && (hashConditionOfPlanes[countOfHash] == hashConditionOfPlanes[countOfHash - i])) {
+                isOnGameFlg = false;
+            }
     }
 
     public static void setPlanePresent(int array[][]) {
         changeCounter();
-        for (int i = 0; i < WidthOfPlane; i++) {
-            for (int j = 0; j < WidthOfPlane; j++) {
+        for (int i = 0; i < planePresent.length; i++) {
+            for (int j = 0; j < planePresent[i].length; j++) {
                 planePresent[i][j] = array[i][j];
             }
         }
     }
 
     public static void setPlaneBirth(int array[][]) {
-        for (int i = 0; i < WidthOfPlane; i++) {
-            for (int j = 0; j < WidthOfPlane; j++) {
+        for (int i = 0; i < planeBirth.length; i++) {
+            for (int j = 0; j < planeBirth[i].length; j++) {
                 planeBirth[i][j] = array[i][j];
             }
         }
     }
 
     public static void setPlaneDead(int array[][]) {
-        for (int i = 0; i < WidthOfPlane; i++) {
-            for (int j = 0; j < WidthOfPlane; j++) {
+        for (int i = 0; i < planeDead.length; i++) {
+            for (int j = 0; j < planeDead[i].length; j++) {
                 planeDead[i][j] = array[i][j];
             }
         }
     }
 
+    @Override
     public void paint(Graphics g) {
         while (isOnGameFlg) {
             int x = 10 + 4 + 1 + 5;
