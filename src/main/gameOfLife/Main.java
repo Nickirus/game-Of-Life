@@ -22,6 +22,7 @@ public class Main extends JFrame implements Runnable {
     private static int speed = 80;
     private static int north, south, west, east, nWest, nEast, sWest, sEast;
     private static int sumOfEight, center;
+    private static int visibilityMode = 3;
 
     private static int planeTopology(int i) {
         if (i > (widthOfPlane - 1)) i = i - widthOfPlane;
@@ -158,22 +159,28 @@ public class Main extends JFrame implements Runnable {
             }
         }
 
-        Color colorDead = new Color(141, 92, 51);
-        g.setColor(colorDead);
-        for (int i = 0; i < planeDead.length; i++) {
-            for (int j = 0; j < planeDead[i].length; j++) {
-                if (planeDead[i][j] == 1)
-                    g.drawOval(11 * j + 4 + 5, 11 * i + 26 + 5, 11, 11);
+
+        if (visibilityMode == 2 || visibilityMode == 3) {
+            Color colorDead = new Color(141, 92, 51);
+            g.setColor(colorDead);
+            for (int i = 0; i < planeDead.length; i++) {
+                for (int j = 0; j < planeDead[i].length; j++) {
+                    if (planeDead[i][j] == 1)
+                        g.drawOval(11 * j + 4 + 5, 11 * i + 26 + 5, 11, 11);
+                }
             }
         }
+
         run();
 
-        Color colorBirth = new Color(39, 60, 50);
-        g.setColor(colorBirth);
-        for (int i = 0; i < planeBirth.length; i++) {
-            for (int j = 0; j < planeBirth[i].length; j++) {
-                if (planeBirth[i][j] == 1)
-                    g.drawOval(11 * j + 4 + 5, 11 * i + 26 + 5, 11, 11);
+        if (visibilityMode == 3) {
+            Color colorBirth = new Color(39, 60, 50);
+            g.setColor(colorBirth);
+            for (int i = 0; i < planeBirth.length; i++) {
+                for (int j = 0; j < planeBirth[i].length; j++) {
+                    if (planeBirth[i][j] == 1)
+                        g.drawOval(11 * j + 4 + 5, 11 * i + 26 + 5, 11, 11);
+                }
             }
         }
 
@@ -218,6 +225,15 @@ public class Main extends JFrame implements Runnable {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                     if (speed > 40) speed -= 10;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_1) {
+                    visibilityMode = 1;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_2) {
+                    visibilityMode = 2;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_3) {
+                    visibilityMode = 3;
                 }
             }
         });
