@@ -1,16 +1,14 @@
 package main.gameOfLife;
 
+import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 
 public class Main extends JFrame implements Runnable {
     private static boolean isOnGameFlg = true;
+    private static boolean gameStopFlg = false;
     private static int widthOfPlane = 60;
     private static int planePresent[][] = new int[60][60];
     private static int planeFuture[][] = new int[60][60];
@@ -188,8 +186,6 @@ public class Main extends JFrame implements Runnable {
             this.repaint();
             run();
         }
-
-
     }
 
     private static void messageGameOver() {
@@ -224,7 +220,7 @@ public class Main extends JFrame implements Runnable {
                     speed += 10;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    if (speed > 40) speed -= 10;
+                    if (speed > 30) speed -= 10;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_1) {
                     visibilityMode = 1;
@@ -234,6 +230,14 @@ public class Main extends JFrame implements Runnable {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_3) {
                     visibilityMode = 3;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    if (gameStopFlg) {
+                        gameStopFlg = false;
+                    } else {
+                        gameStopFlg = true;
+                    }
+
                 }
             }
         });
@@ -250,40 +254,45 @@ public class Main extends JFrame implements Runnable {
 
     private static int[][] zeroingArray(int array[][]) {
         for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                array[i][j] = 0;
-            }
+            Arrays.fill(array[i], 0);
         }
         return array;
     }
 
     private static void lifeCycle() {
-        planeDead = zeroingArray(planeDead);
-        planeBirth = zeroingArray(planeBirth);
-        setPlanePresent(planePresent);
-        planeNavigation();
-        setPlaneDead(planeDead);
-        setPlaneBirth(planeBirth);
-        for (int i = 0; i < planePresent.length; i++) {
-            for (int j = 0; j < planePresent[i].length; j++) {
-                planePresent[i][j] = planeFuture[i][j];
+        if (!gameStopFlg) {
+            if (countOfGenerations == 0) {
+                randomStart();
             }
-        }
-        try {
-            Thread.sleep(speed - 20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            planeDead = zeroingArray(planeDead);
+            planeBirth = zeroingArray(planeBirth);
+            setPlanePresent(planePresent);
+            planeNavigation();
+            setPlaneDead(planeDead);
+            setPlaneBirth(planeBirth);
+            for (int i = 0; i < planePresent.length; i++) {
+                for (int j = 0; j < planePresent[i].length; j++) {
+                    planePresent[i][j] = planeFuture[i][j];
+                }
+            }
+            try {
+                Thread.sleep(speed - 29);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static void main(String... args) {
+    private static void randomStart() {
         Random random = new Random();
         for (int i = 0; i < planeFuture.length; i++) {
             for (int j = 0; j < planeFuture[i].length; j++) {
                 planeFuture[i][j] = planePresent[i][j] = random.nextInt(2);
             }
         }
+    }
 
+    public static void main(String... args) {
         new Main();
         while (isOnGameFlg) {
             lifeCycle();
